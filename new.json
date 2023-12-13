@@ -1,0 +1,123 @@
+mgmt_dzenv_compartment = {
+
+    key                        = "vpc-mgmt-dzenv"
+  
+    compartment_name           = "vpc-customer-project-zone-devops",
+  
+    compartment_cidr_addr      = "192.168.50.0/24",
+  
+    provision_internet_gateway = false,
+  
+    security_groups = [
+  
+      { key = "sg-mgmt-dzenv-ep", name = "sgrp-customer-project-mgmt-dzenv-ep", description = "Security Groups for VPC Endpoints" },
+  
+      { key = "sg-mgmt-dzenv-ops", name = "sgrp-customer-project-mgmt-dzenv-ops", description = "Security Groups for Gitlab Runners" }
+  
+    ]
+  
+   
+  
+    subnets_settings = [
+  
+      {
+  
+        key                   = "sub-mgmt-dzenv-ops1"
+  
+        tier_name             = "customer-project-mgmt-dzenv-ops"
+  
+        cidr_block            = "192.168.50.160/28"
+  
+        availability_zone     = "ap-southeast-1a"
+  
+        associate_nat_gateway = false
+  
+        nacl_name             = "nacl-customer-project-mgmt-dzenv-ops"
+  
+        route_table_name      = "rt-customer-project-mgmt-dzenv-ops"
+  
+        subnet_tags           = { "tier" : "devops", "segment" : "private", "zone" : "mz" }
+  
+      },
+  
+      {
+  
+        key                   = "sub-mgmt-dzenv-ops2"
+  
+        tier_name             = "customer-project-mgmt-dzenv-ops"
+  
+        cidr_block            = "192.168.50.176/28"
+  
+        availability_zone     = "ap-southeast-1b"
+  
+        associate_nat_gateway = false
+  
+        nacl_name             = "nacl-customer-project-mgmt-dzenv-ops"
+  
+        route_table_name      = "rt-customer-project-mgmt-dzenv-ops"
+  
+        subnet_tags           = { "tier" : "devops", "segment" : "private", "zone" : "mz" }
+  
+      },
+  
+      {
+  
+        key                   = "sub-mgmt-dzenv-ep1"
+  
+        tier_name             = "customer-project-mgmt-dzenv-ep"
+  
+        cidr_block            = "192.168.50.192/27"
+  
+        availability_zone     = "ap-southeast-1a"
+  
+        associate_nat_gateway = false
+  
+        nacl_name             = "nacl-customer-project-mgmt-dzenv-ep"
+  
+        route_table_name      = "rt-customer-project-mgmt-dzenv-ep"
+  
+        subnet_tags           = { "tier" : "endpoint", "segment" : "private", "zone" : "mz" }
+  
+      },
+  
+      {
+  
+        key                   = "sub-mgmt-dzenv-ep2"
+  
+        tier_name             = "customer-project-mgmt-dzenv-ep"
+  
+        cidr_block            = "192.168.50.224/27"
+  
+        availability_zone     = "ap-southeast-1b"
+  
+        associate_nat_gateway = false
+  
+        nacl_name             = "nacl-customer-project-mgmt-dzenv-ep"
+  
+        route_table_name      = "rt-customer-project-mgmt-dzenv-ep"
+  
+        subnet_tags           = { "tier" : "endpoint", "segment" : "private", "zone" : "mz" }
+  
+      }
+  
+    ]
+  
+  }
+  
+   
+  
+  vpc_endpoints = [
+  
+    {
+  
+      vpc_key            = "vpc-mgmt-dzenv"
+  
+      security_group_key = "vpc-mgmt-dzenv"
+  
+      subnet_keys        = ["sub-mgmt-dzenv-ep1", "sub-mgmt-dzenv-ep2"]
+  
+      aws_endpoints      = ["ecr.api", "ecr.dkr", "s3", "sts", "ec2", "ec2messages", "ssm", "ssmmessages", "eks", "acm-pca", "elasticloadbalancing"]
+  
+    }
+  
+  ]
